@@ -1,0 +1,13 @@
+/src/tests/core/__pycache__
+*.pyc
+.DS_Store
+/.idea
+/src/.venv
+/src/tests/.venv
+/src/main/deep_learning/checkpoints
+/src/main/.venv
+/src/main/build
+/src/main/dist
+src/main/GliAAns-UI.spec
+/src/main/pediatric_fdopa_pipeline/.venv
+/src/main/pipeline_runner
