@@ -69,6 +69,7 @@ else
     HD_BET             = $(VENV_DIR)/bin/hd-bet
     DCM2NIIX           = $(VENV_DIR)/bin/dcm2niix
     NIPREPS_SYNTHSTRIP = $(VENV_DIR)/bin/nipreps-synthstrip
+	TESTS_PDOC         = ../$(TESTS_VENV_DIR)/bin/pdoc
 endif
 
 # -------------------------
@@ -202,7 +203,7 @@ else
 endif
 
 # -------------------------
-# Tests
+# Tests (GitHub Actions automation)
 # -------------------------
 SRC_DIR      := main
 TEST_SCRIPT  := tests/run_all_tests.sh
@@ -222,7 +223,7 @@ tests-coverage:
 	    /bin/bash tests/run_all_tests.sh -c
 
 # -------------------------
-# Create documentation
+# Create documentation (GitHub Actions automation)
 # -------------------------
 .PHONY: doc
 doc:
@@ -232,5 +233,5 @@ ifeq ($(OS),Windows_NT)
 	cd ..
 else
 	rm -rf $(DOC_DIR)
-	cd main && PYTHONPATH=. && pdoc -o $(DOC_DIR) --logo $(abspath main/resources/GliAAns-logo.png) --template-dir ../pdoc/pdoc_template . ui threads components && cd ..
+	cd main && PYTHONPATH=. $(TESTS_PDOC) -o $(DOC_DIR) --logo "https://fn-org.github.io/GliAAns-UI/GliAAns-logo.png" --template-dir ../pdoc/pdoc_template . ui threads components && cd ..
 endif
