@@ -1,0 +1,150 @@
+name: Tests & Docs
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  build-test-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      # Dipendenze di sistema per PyQt + ambiente headless
+      - name: Install system dependencies for Qt & Xvfb
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libegl1 \
+            libxkbcommon-x11-0 \
+            libdbus-1-3 \
+            libxcb-icccm4 \
+            libxcb-image0 \
+            libxcb-keysyms1 \
+            libxcb-randr0 \
+            libxcb-render-util0 \
+            libxcb-xinerama0 \
+            libxcb-xfixes0 \
+            libxcb-shape0 \
+            libxcb-cursor0 \
+            libx11-xcb1 \
+            x11-utils \
+            xvfb \
+            make
+
+      # Setup ambiente test tramite Makefile
+      - name: Setup test environment
+        working-directory: ./src
+        run: |
+          make tests_python-setup
+
+      # Esegui i test con coverage (GUI-safe)
+      - name: Run tests with coverage
+        working-directory: ./src
+        run: |
+          xvfb-run make tests-coverage
+
+      # Genera la documentazione con pdoc
+      - name: Generate documentation
+        working-directory: ./src
+        run: |
+          make doc
+
+      # Prepara una cartella "deploy" pulita per GitHub Pages
+      - name: Prepare deploy folder
+        working-directory: ./src
+        run: |
+          mkdir -p deploy
+
+          # Sposta la coverage dentro docs
+          mkdir -p pdoc/coverage
+          mv ./tests/htmlcov/* pdoc/coverage/
+
+          # Landing page
+          cat > pdoc/landing.html << 'EOF'
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="utf-8">
+            <title>GliAAns-UI Docs</title>
+            <style>
+              body {
+                font-family: sans-serif;
+                padding: 50px;
+                text-align: center;
+                background: #f4f4f4;
+              }
+              .logo {
+                max-width: 150px;
+                height: auto;
+                margin-bottom: 20px;
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+              }
+              .card {
+                background: white;
+                padding: 20px;
+                margin: 20px auto;
+                width: 300px;
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                transition: transform 0.2s;
+              }
+              .card:hover {
+                transform: translateY(-5px);
+              }
+              a {
+                text-decoration: none;
+                color: #333;
+                font-weight: bold;
+                font-size: 1.2em;
+              }
+              a:hover {
+                color: #007bff;
+              }
+            </style>
+          </head>
+          <body>
+            
+            <img src="GliAAns-logo.png" alt="GliAAns Logo" class="logo">
+            
+            <h1>GliAAns-UI Code Documentation</h1>
+            
+            <div class="card">
+              <a href="docs/index.html">Documentation</a>
+            </div>
+            
+            <div class="card">
+              <a href="coverage/index.html">Test Coverage</a>
+            </div>
+            
+          </body>
+          </html>
+          EOF
+
+          # Copia tutto in una cartella di deploy isolata
+          cp -r pdoc/docs deploy/
+          cp -r pdoc/coverage deploy/
+          cp -r pdoc/landing.html deploy/
+          cp -r main/resources/GliAAns-logo.png deploy/
+          mv deploy/landing.html deploy/index.html
+
+      # Pubblica su GitHub Pages senza toccare la repo
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: src/deploy
+          clean: true
