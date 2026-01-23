@@ -32,7 +32,7 @@ To get started, you can find installation and usage instructions in the [manuals
 You can watch the full demonstration of the GUI and pipeline workflow here:
 <br>
 <a href="docs/assets/GliAAns-UI.mp4" target="_blank">
-  Click to watch the video
+  Click and download the video
 </a>
 
 ## Screenshots
