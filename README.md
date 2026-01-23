@@ -27,3 +27,25 @@ To get started, you can find installation and usage instructions in the [manuals
 - [install.md](./docs/manuals/install.md)
 - [compile.md](./docs/manuals/compile.md)
 - [run.md](./docs/manuals/run.md)
+
+## Video Demo
+You can watch the full demonstration of the GUI and pipeline workflow here:
+<br>
+<a href="docs/assets/GliAAns-UI.mp4" target="_blank">
+  Click to watch the video
+</a>
+
+## Screenshots
+<p align="center">
+  <img src="docs/assets/nifti_viewer.png" alt="Nifti Viewer" width="60%"/>
+</p>
+
+---
+<p align="center">
+  <img src="docs/assets/patient_selection.png" alt="Patient Selection" width="60%"/>
+</p>
+
+---
+<p align="center">
+  <img src="docs/assets/pipeline.png" alt="Pipeline Execution" width="60%"/>
+</p>
