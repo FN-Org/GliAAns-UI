@@ -31,8 +31,8 @@ To get started, you can find installation and usage instructions in the [manuals
 ## Video Demo
 You can watch the full demonstration of the GUI and pipeline workflow here:
 <br>
-<a href="docs/assets/GliAAns-UI.mp4" target="_blank">
-  Click and download the video
+<a href="https://fn-org.github.io/GliAAns-UI/gallery.html" target="_blank">
+  Video Demo
 </a>
 
 ## Screenshots
