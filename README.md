@@ -3,12 +3,11 @@
 # GliAAns – Gliomas Automatic AnalysiS
 ### University of Genoa - DIBRIS
 
-GliAAns is a cross-platform desktop application designed to provide clinicians with an intuitive graphical interface for executing the Pediatric FDOPA Pipeline, a neuroimaging workflow for extracting static and dynamic parameters from 18F-DOPA PET/CT and MRI data in pediatric gliomas (as described in the original methodology [paper](https://www.mdpi.com/2077-0383/13/20/6252#)).
+GliAAns is a cross-platform desktop application designed to provide clinicians with an intuitive graphical interface for executing the Pediatric FDOPA Pipeline. The application’s core computational engine is based on the open-source neuroimaging workflow developed by [Mureddu et al.](https://www.mdpi.com/2077-0383/13/20/6252#), facilitating the extraction of static and dynamic parameters from 18F-DOPA PET/CT and MRI data in pediatric gliomas (source code available on [GitHub](https://github.com/MicheleMureddu/Pediatric_fdopa_pipeline)).
 
-The application simplifies the entire analysis process by guiding the user through data import, preprocessing, VOI selection (manual or automatic), pipeline execution, and results visualization. 
+The application simplifies the entire analysis process by guiding the user through data import, preprocessing, VOI selection, pipeline execution, and results visualization. Built with Python and PyQt6, GliAAns integrates state-of-the-art imaging libraries and an optional Deep Learning–based segmentation model (available for CUDA-enabled Linux systems), which implements the architecture described by [Bianconi et al.](https://link.springer.com/article/10.1186/s40708-023-00207-6).
 
-Built with Python and PyQt6, it integrates state-of-the-art imaging libraries and an optional Deep Learning–based segmentation model (CUDA-enabled Linux systems).
-GliAAns is developed to run entirely offline, ensuring patient data privacy and compatibility with hospital workstations on Linux, Windows, and macOS.
+Developed to run entirely offline, GliAAns ensures patient data privacy and full compatibility with hospital workstations across Linux, Windows, and macOS.
 
 ---
 
