@@ -101,9 +101,52 @@ jobs:
           name: linux-zip
           path: GliAAns-${{ github.ref_name }}-main-linux.zip
 
+  build_mac_os:
+    runs-on: macos-latest
+
+    steps:
+      - name: Code checkout
+        uses: actions/checkout@v7
+
+      - name: Set Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Setup pipeline python
+        working-directory: ./src
+        run: |
+          make pipeline_python-setup
+
+      - name: compile pipeline
+        working-directory: ./src
+        run: |
+          make compile-pipeline
+
+      - name: Clean pipeline python setup
+        working-directory: ./src/main
+        run: |
+          rm -r pediatric_fdopa_pipeline
+
+      - name: Prepare folder and zip
+        run: |
+          FOLDER_NAME="GliAAns-${{ github.ref_name }}-main-macos"
+
+          cp -r src/main "$FOLDER_NAME"
+
+          zip -r "$FOLDER_NAME.zip" "$FOLDER_NAME"
+
+      - name: Upload Linux Artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: linux-zip
+          path: GliAAns-${{ github.ref_name }}-main-macos.zip
+
+
   create_release:
     runs-on: ubuntu-latest
-    needs: [build_linux, build_windows] 
+    needs: [build_linux, build_windows,build_mac_os] 
     
     steps:
       - name: Download zip artifacts
