@@ -101,7 +101,7 @@ jobs:
           name: linux-zip
           path: GliAAns-${{ github.ref_name }}-main-linux.zip
 
-  build_mac_os:
+  build_macos:
     runs-on: macos-latest
 
     steps:
@@ -137,7 +137,7 @@ jobs:
 
           zip -r "$FOLDER_NAME.zip" "$FOLDER_NAME"
 
-      - name: Upload Linux Artifact
+      - name: Upload macos Artifact
         uses: actions/upload-artifact@v7
         with:
           name: linux-zip
@@ -146,7 +146,7 @@ jobs:
 
   create_release:
     runs-on: ubuntu-latest
-    needs: [build_linux, build_windows,build_mac_os] 
+    needs: [build_linux, build_windows,build_macos] 
     
     steps:
       - name: Download zip artifacts
