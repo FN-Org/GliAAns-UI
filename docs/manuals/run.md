@@ -2,7 +2,40 @@
 This document explains how to launch the GliAAns-UI application and guides the user through the standard medical workflow for Glioma analysis.
 
 ## 1. Launching the Application
-### A. For End Users (Compiled Application)
+
+### A. For End Users (ZIP Release)
+
+> **Note:** GliAAns-UI has been developed and tested with **Python 3.11**. Make sure to use Python 3.11 when creating the environment and launching the application.
+
+If you have downloaded the ZIP archive from the Releases page:
+
+1. Extract the archive to a location of your choice.
+2. Open a terminal inside the extracted folder.
+3. Create a Python virtual environment (see [install.md](./install.md) for details).
+4. Activate the virtual environment and install the required dependencies:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+5. Launch the application:
+
+   ```bash
+   python main.py
+   ```
+
+   or, if multiple Python versions are installed:
+
+   ```bash
+   python3.11 main.py
+   ```
+
+   (on Windows, `python.exe` or `python3.11.exe` may also be used).
+   
+    >   Important for Deep Learning Users: 
+    > 
+    >   If you intend to use the Tumor Segmentation features, ensure the Deep Learning module has been initialized. If you have not done so, navigate to the deep_learning subfolder inside the application directory and follow the instructions in the [README.md](./../../src/main/deep_learning/README.md) there.
+
+### B. For End Users (Compiled Application) - **WIP**
 
 If you are running the standalone version distributed via the dist/ folder:
 
@@ -21,7 +54,7 @@ If you are running the standalone version distributed via the dist/ folder:
     > 
     >   If you intend to use the Tumor Segmentation features, ensure the Deep Learning module has been initialized. If you have not done so, navigate to the deep_learning subfolder inside the application directory and follow the instructions in the [README.md](./../../src/main/deep_learning/README.md) there.
 
-### B. For Developers (Source Code)
+### C. For Developers (Source Code)
 
 If you are working on the source code and want to run the application without compiling:
 
@@ -32,7 +65,7 @@ If you are working on the source code and want to run the application without co
     python main.py
     ```
    
-### 2. Clinical Workflow Guide
+## 2. Clinical Workflow Guide
 Once the GUI is running, follow this pipeline to analyze patient data.
 
 **Step 1: Import Data**
