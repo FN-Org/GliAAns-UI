@@ -1,4 +1,4 @@
-name: Release (linux + windows)
+name: Release (linux + windows + macos)
 
 # Start on tag push (ex v1.0.0)
 on:
