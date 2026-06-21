@@ -1,0 +1,122 @@
+name: Release (linux + windows)
+
+# Start on tag push (ex v1.0.0)
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build_windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Code checkout
+        uses: actions/checkout@v7
+
+      - name: Set Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install Make
+        run: choco install make
+
+      - name: Setup python
+        working-directory: ./src
+        shell: bash
+        run: cp "$(which python)" "$(dirname "$(which python)")/python3.11.exe"
+
+      - name: Setup pipeline python
+        working-directory: ./src
+        run: make pipeline_python-setup SHELL=cmd.exe
+
+      - name: compile pipeline
+        working-directory: ./src
+        run: make compile-pipeline SHELL=cmd.exe
+
+      - name: Clean pipeline python setup
+        working-directory: ./src/main
+        shell: bash
+        run: rm -r pediatric_fdopa_pipeline
+
+      - name: copy the folder and zip
+        shell: bash
+        run: |
+          FOLDER_NAME="GliAAns-${{ github.ref_name }}-main-windows"
+          cp -r src/main "$FOLDER_NAME"
+          
+          7z a "$FOLDER_NAME.zip" "$FOLDER_NAME"
+          
+      - name: Upload Windows Artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: windows-zip
+          path: GliAAns-${{ github.ref_name }}-main-windows.zip
+
+
+  build_linux:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Code checkout
+        uses: actions/checkout@v7
+
+      - name: Set Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Setup pipeline python
+        working-directory: ./src
+        run: |
+          make pipeline_python-setup
+
+      - name: compile pipeline
+        working-directory: ./src
+        run: |
+          make compile-pipeline
+
+      - name: Clean pipeline python setup
+        working-directory: ./src/main
+        run: |
+          rm -r pediatric_fdopa_pipeline
+
+      - name: Prepare folder and zip
+        run: |
+          FOLDER_NAME="GliAAns-${{ github.ref_name }}-main-linux"
+
+          cp -r src/main "$FOLDER_NAME"
+
+          zip -r "$FOLDER_NAME.zip" "$FOLDER_NAME"
+
+      - name: Upload Linux Artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: linux-zip
+          path: GliAAns-${{ github.ref_name }}-main-linux.zip
+
+  create_release:
+    runs-on: ubuntu-latest
+    needs: [build_linux, build_windows] 
+    
+    steps:
+      - name: Download zip artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: release
+
+      - name: Create release and upload asset
+        uses: softprops/action-gh-release@v3
+        with:
+          files: release/*.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      
+  
