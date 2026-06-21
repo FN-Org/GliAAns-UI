@@ -131,7 +131,7 @@ $(PIPELINE_DIST): $(PIPELINE_VENV_DIR)
 
 $(PIPELINE_NO_DIST):$(PIPELINE_DIST)
 ifeq ($(OS),Windows_NT)
-	cmd /C move $(PIPELINE_DIST) $(PIPELINE_NO_DIST)
+	cmd /C move .\main\$(PIPELINE_DIST) .\main\$(PIPELINE_NO_DIST)
 else
 	cd main && mv $(PIPELINE_DIST) $(PIPELINE_NO_DIST)
 endif
