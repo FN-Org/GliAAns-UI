@@ -140,7 +140,7 @@ jobs:
       - name: Upload macos Artifact
         uses: actions/upload-artifact@v7
         with:
-          name: linux-zip
+          name: macos-zip
           path: GliAAns-${{ github.ref_name }}-main-macos.zip
 
 
