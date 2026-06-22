@@ -121,7 +121,7 @@ $(PIPELINE_DIST): $(PIPELINE_VENV_DIR)
 	    --nofollow-import-to=test \
 	    --nofollow-import-to=tkinter \
 	    --enable-plugin=no-qt \
-		--enable-plugin=anti-bloat
+		--enable-plugin=anti-bloat \
 	    --nofollow-import-to=distutils \
 	    --lto=yes \
 	    --python-flag=-OO \
