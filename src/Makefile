@@ -46,7 +46,7 @@ else
     ifeq ($(UNAME_S),Darwin)
         ICON      = resources/GliAAns-logo.icns
         ICON_FLAG = --macos-app-icon=$(ICON)
-    endif
+        NUITKA_EXTRA_FLAGS = --low-memory --jobs=1 --enable-plugin=numpy
     PYTHON             = python3.11
     SEP		 		   = :
     APP_VENV_DIR       = main/$(VENV_DIR)
@@ -129,7 +129,8 @@ $(PIPELINE_DIST): $(PIPELINE_VENV_DIR)
 	    $(ICON_FLAG) \
 	    --output-filename=$(PIPELINE_EXE) \
 	    --show-progress \
-	    --show-modules
+	   	--show-modules \
+	    $(NUITKA_EXTRA_FLAGS)
 
 $(PIPELINE_NO_DIST):$(PIPELINE_DIST)
 ifeq ($(OS),Windows_NT)
