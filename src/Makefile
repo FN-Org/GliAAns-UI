@@ -47,6 +47,7 @@ else
         ICON      = resources/GliAAns-logo.icns
         ICON_FLAG = --macos-app-icon=$(ICON)
         NUITKA_EXTRA_FLAGS = --low-memory --jobs=1 --enable-plugin=numpy
+	endif
     PYTHON             = python3.11
     SEP		 		   = :
     APP_VENV_DIR       = main/$(VENV_DIR)
